@@ -1,0 +1,31 @@
+{% extends "prjectoWebApp/base.html" %}
+
+{% load static %}
+
+{% block title %} blog {% endblock %}
+
+{% block content %}
+        <h2>{{categoria}}</h2>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="{% url 'blog' %}">Blog</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Categorias</li>
+              
+            </ol>
+          </nav>
+        <div class="row">
+            
+            {% for categoria in categorias %}
+                
+                <div class="col-5" style="margin-bottom:15px;">
+                    <a class="btn btn-primary btn-lg btn-block" href="{% url 'categoria' categoria.id %}" role="button" style="text-transform: capitalize;">{{categoria.nombre}}</a>
+                    
+                    
+                    
+                </div>
+                
+                    
+            {% endfor %}
+        </div>
+    
+{% endblock %}

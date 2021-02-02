@@ -1,0 +1,65 @@
+{% extends "prjectoWebApp/base.html" %}
+
+{% load static %}
+
+{% block title %} blog {% endblock %}
+{% block name %} Blog {% endblock %}
+{% block breadcrumb %}
+<li class="breadcrumb-item active">Blog</li>
+{% endblock %}
+{% block content %}
+
+<div class="card-columns infinite-container contenido">
+    {% for entrada in entradas %}
+        <div class="card infinite-item">
+            {% if entrada.imagen %}
+                <img class="card-img-top" src="{{entrada.imagen.url}}" alt="imagren del post">
+            {% endif %}
+        <div class="card-body">
+            <h5 class="card-title">{{entrada.titulo}}</h5><br><br>
+            <h6 class="card-subtitle mb-2 text-muted">{{entrada.autor}}</h6>                      
+            <p class="card-text">{{entrada.contenido|truncatewords:19|safe}}</p>
+        </div>
+        <ul class="list-group list-group-flush">
+            {% for category in entrada.categorias.all %}
+                <a href="{% url 'categoria' category.id %}"><li class="list-group-item">{{category.nombre}}</li></a>
+            {% endfor %}
+        </ul>
+        <div class="card-body">
+            <a href="{% url 'post' entrada.id %}" class="btn btn-primary">Mas Informacion</a>
+        </div>
+        </div>
+    {% endfor %}
+    <div class="loading overlay dark" style="display: none;" >
+        <i class="fas fa-2x fa-sync-alt fa-spin"></i>
+    </div>
+</div>
+
+<!-- narcador de la paginacion infinita -->
+{% if entradas.has_next %}
+    <a class="infinite-more-link" href="?page={{ entradas.next_page_number }}">More</a>
+{% endif %}
+
+{% endblock %}
+{% block js %}
+
+<script src="{% static 'prjectoWebApp/lib/waypoints/js/jquery-3.1.1.min.js' %}"></script>
+<script src="{% static 'prjectoWebApp/lib/waypoints/js/jquery.waypoints.min.js' %}"></script>
+<script src="{% static 'prjectoWebApp/lib/waypoints/js/infinite.min.js' %}"></script>
+
+<script>
+    var infinite = new Waypoint.Infinite({
+        element: $('.infinite-container')[0],
+        onBeforePageLoad: function () {
+            
+            $('.loading').show();
+
+        },
+        onAfterPageLoad: function ($items) {
+            $('.loading').hide();
+            
+        }
+    });
+</script>
+
+{% endblock %}

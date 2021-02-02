@@ -1,0 +1,74 @@
+{% extends "prjectoWebApp/base.html" %}
+
+{% load static %}
+
+{% block title %} Pos {{post.nombre}} {% endblock %}
+{% block name %} {{post.titulo}} {% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'blog' %}">Blog</a></li>
+    {% for category in categorias %}
+        <li class="breadcrumb-item"><a href="{% url 'categoria' category.id %}">{{category.nombre}}</a></li>
+    {% endfor %}
+    <li class="breadcrumb-item active">{{post.titulo|truncatewords:3}}</li>
+{% endblock %}
+{% block content %}
+
+<div class="card-body">
+    <div class="row">
+      <div class="col-12 col-md-12 col-lg-8 order-2 order-md-1">
+        <div class="row">
+          
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <h4>{{post.titulo}}</h4>
+              <div class="post">
+                <div class="user-block">
+                  <img class="img-circle img-bordered-sm" src="{{post.imagen.thumbnail.url}}" alt="user image">
+                  <span class="username">
+                    <a href="#">{{post.autor}}</a>
+                  </span>
+                  <span class="description">{{post.created}}</span>
+                </div>
+                <!-- /.user-block -->
+                <p>
+                  {{post.contenido|safe}}
+                </p>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-12 col-lg-4 order-1 order-md-2">
+        
+        <div class="card card-primary card-outline">
+          <div class="card-body box-profile">
+            <div class="text-center">
+              <img class="profile-user-img img-fluid img-circle" src="../../dist/img/user4-128x128.jpg" alt="User profile picture">
+            </div>
+
+            <h3 class="profile-username text-center">Nina Mcintire</h3>
+
+            <p class="text-muted text-center">Software Engineer</p>
+
+            <ul class="list-group list-group-unbordered mb-3">
+              <li class="list-group-item">
+                <b>Followers</b> <a class="float-right">1,322</a>
+              </li>
+              <li class="list-group-item">
+                <b>Following</b> <a class="float-right">543</a>
+              </li>
+              <li class="list-group-item">
+                <b>Friends</b> <a class="float-right">13,287</a>
+              </li>
+            </ul>
+
+            <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
+          </div>
+          <!-- /.card-body -->
+        </div>
+        
+        
+      </div>
+    </div>
+  </div>
+{% endblock %}

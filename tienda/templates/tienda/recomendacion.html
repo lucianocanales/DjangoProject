@@ -1,0 +1,21 @@
+<div class="container">
+    <h4>Quienes vieron este producto también compraron</h4>    
+    <div class="row blackbackgroundscroll " style="display: flex">
+        {% for produc in recomendacion %}
+        <a href="{% url 'producto' produc.id %}">
+            <div class="col-4" style="padding: 10px;">
+                <div class="card" style="width: 11.5rem;">
+                    {% for imagen in imagenes_recomend %}
+                        {% if imagen.caracteristica.id == produc.id and imagen.image.estado == "active" %}
+                            <img class="card-img-top" src="{{imagen.image.imagen.medium.url}}" alt="" style="height: 11.5rem; width: 11.5rem; " >
+                        {% endif %}
+                    {% endfor %}   
+                    <div class="card-body">
+                        <h5 class="card-text">{{produc.precio}}</h5>
+                    </div>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>

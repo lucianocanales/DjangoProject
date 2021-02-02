@@ -1,0 +1,41 @@
+{% extends "prjectoWebApp/base.html" %}
+
+{% load static %}
+
+{% block title %} blog {% endblock %}
+{% block name %} {{categoria|capfirst}} {% endblock %}
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="{% url 'blog' %}">Blog</a></li>
+<li class="breadcrumb-item"><a href="{% url 'categorias' %}">Categorias</a></li>
+<li class="breadcrumb-item active" aria-current="page">{{categoria|capfirst}}</li>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row sinpadding" style="display: flex">
+        {% for entrada in entradas %}
+            <div class="col-sm-4">
+                <div class="card" style="width: 18rem;">
+                    {% if entrada.imagen %}
+                        <img class="card-img-top" src="{{entrada.imagen.url}}" alt="imagren del post">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{entrada.titulo}}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{entrada.autor}}</h6>                      
+                        <p class="card-text">{{entrada.contenido|truncatewords:19}}</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        {% for category in entrada.categorias.all %}
+                            <a href="{% url 'categoria' category.id %}"><li class="list-group-item">{{category.nombre}}</li></a>
+                        {% endfor %}
+                    </ul>
+                    <div class="card-body">
+                        <a href="#" class="btn btn-primary">Mas Informacion</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+    
+{% endblock %}

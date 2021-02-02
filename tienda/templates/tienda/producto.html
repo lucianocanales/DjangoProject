@@ -1,0 +1,186 @@
+{% extends "prjectoWebApp/base.html" %}
+
+{% load static %}
+{% load math_filter %}
+{% block title %} {{producto.nombre}} {% endblock %}
+{% block name %} {{producto.nombre|title}} {% endblock %}
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="{% url 'tienda' %}">Tienda</a></li>
+{% for categorias in categorias_padres %}
+    {% if forloop.last%}
+    <li class="breadcrumb-item active" aria-current="page">{{categorias.nombre|capfirst}}</li>
+    {% else %}
+        <li class="breadcrumb-item"><a href="{% url 'tienda' %}">{{categorias.nombre|capfirst}}</a></li>
+    {% endif %}
+{% endfor %}
+
+
+{% endblock %}
+
+{% block content %}
+    
+        <!-- Modal -->
+        <div class="modal fade" id="mediosPago" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ver medios de pago</h5>
+                <button type="button" class="close " data-dismiss="modal">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" src="https://articulo.mercadolibre.com.ar/noindex/services/MLA900280219/payments?controlled=true" ></iframe></div>
+                </div>
+            </div>
+           
+            </div>
+        </div>
+        </div>
+                
+    <div class="container">
+        <div class="row sinpadding" style="display: flex">
+            
+            <div id="miniatura" class="col-1">
+                
+                    {% for img in entradas %}
+                    <div class="card" style="width: 100%;" >
+                        {% if forloop.first %}
+                            <div id="{{forloop.counter0}}" class="card border border-primary" style="width: 100%;">
+                                
+                                <img class="card-img-top" src="{{img.image.imagen.thumbnail.url}}" class="img-fluid" alt=""  >
+                            </div>
+                        {% else %}
+                            <div id="{{forloop.counter0}}" class="card" style="width: 100%;">
+                                
+                                <img class="card-img-top" src="{{img.image.imagen.thumbnail.url}}" class="img-fluid" alt=""  >
+                            </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                
+            </div>
+            <div class="col-4">
+                <div class="card" style="width: 100%;" >
+                    <img id="imgprinsipal" class="card-img-top" src="{{entradas.0.image.imagen.medium.url}}" class="img-fluid" alt=""  >
+                </div>
+
+            </div>
+            <div class="col-4">
+                <div class="card" style="width: 100%;">
+                    <div class="card-body">
+                        <h4 class="card-title">{{producto.nombre|title}}</h4>
+                        <h1 class="card-subtitle mb-2"><font class="font-weight-light">$ {{producto.precio}}</font></h1>
+                        <h5 class="">En <font class="font-weight-light" color=#00a650> 3x ${{producto.precio|divide:3|solo_entero}}{{producto.precio|divide:3|solo_decimal|get_digit:"2"}} sin interes</font> </h5>
+                        <button type="button" class="btn btn-outline-light text-primary openBtn">Ver medios de pago</button>
+                        
+                        <ul>
+                            {% for product in producto.caracteristica.all %}
+                                <li class="card-text text-muted">{{product.nombre}}</li>
+                            {% endfor %}
+                        </ul>
+                    
+                    </div>
+                </div>
+            </div>
+            <div id="envio" class="col-3">
+                <div class="card" style="width: 100%;">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-1" style="margin-left: 15px; margin-right: 10px; margin-top: 10px;">
+                                <samp><font class="font-weight-light" color=#00a650><i class="fas fa-truck"></font></i></samp>
+                            </div> 
+                            <div class="col-9" style="margin-top: 10px;">
+                                <div>
+                                    <h9 class="card-text mb-2"><font class="font-weight-light" color=#00a650>llega el  martes </font></h9>
+                                </div>
+                                <div>
+                                    <a href="#" class="text-primary" >Datos de envio</a>
+                                </div>    
+                            </div>
+                            <div class="col-1" style="margin-left: 15px; margin-right: 15px; margin-top: 10px;">
+                                <samp><font class="font-weight-light" color=#00a650><i class="fas fa-store-alt"></i></font></samp>
+                            </div> 
+                            <div class="col-9" style="margin-top: 10px;">
+                                <div>
+                                    <h6 class="card-text mb-2"><font class="font-weight-light" color=#00a650>Retiralo gratis en correo y otros puntos entre el lunes y el miércoles 20 de enero </font></h6>
+                                </div>
+                                <div>
+                                    <a href="#" class="text-primary" >Ver en el mapa</a>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div style="margin-top: 10px;">
+                            <h6 class="">Vendido por: <a href="#" class="text-primary">{{producto.usuario}}</a> </h5>
+                        </div>
+                        <div>
+                            <samp></samp>
+                        </div>
+                        <div style="margin-top: 15px;">
+                            <h4>Stock disponible</h4>
+                        </div>
+                        
+                        <div class="btn-group row" role="group" style="margin-top:0px ; margin-left: 3px;">
+                            <div class="col-5">
+                                <p class="text-dark" style=" margin-top: 5px; font-size: 16;">cantidad: </p>  
+                            </div>
+                            <div class="col-6">
+                            <select class="form-control">
+                                {% with ''|center:producto.stock as range %}
+                                    {% for _ in range %}
+                                        <option>{{forloop.counter}}{% if forloop.first %} unidad{% else %} unidades{% endif %}</option>
+                                    {% endfor %}
+                                {% endwith %}
+                              </select>
+                            </div>
+                            <div class="col-5">
+                                <h6 class="text-muted" style="font-size:10;">({{producto.stock}} disponibles) </h6> 
+                            </div>
+                        </div>
+                        <div style="margin-top:5px ;">
+                            <a href="#" class="card-link btn btn-primary btn-sm btn-block">Comprar ahora</a>
+                        </div>
+                        <div style="margin-top:5px ;" >
+                            <a href="#" class="card-link btn btn-outline-primary btn-sm btn-block ">Agregar al carrito</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="col-12"><hr></div>
+            <div>
+                {% include 'tienda/recomendacion.html' %}
+                
+            </div>
+            
+            <div class="col-12"><hr></div>
+            
+            <div class="col-9">
+                <h1>Descripcion</h1>
+                <p>{{producto.descripcion}}</p>
+            </div>
+            
+        </div>
+    </div>
+        
+{% endblock %}
+{% block js %}
+        
+    <script type="text/javascript">
+        $('.openBtn').on('click',function(){
+            $('.modal-body').load('https://articulo.mercadolibre.com.ar/noindex/services/MLA900280219/payments?controlled=true',function(){
+                $('#mediosPago').modal({show:true});
+            });
+        });
+        {% for img in entradas %}
+            $(function(){
+                $('#{{forloop.counter0}}').mouseenter(function(){
+                    $('#imgprinsipal').attr('src','{{img.image.imagen.medium.url}}');
+                    $("#miniatura div").parent().find('div').removeClass("border border-primary");
+                    $('#{{forloop.counter0}}').addClass('border border-primary')
+                })
+                
+            })
+        {% endfor %}
+    </script>
+{% endblock %}

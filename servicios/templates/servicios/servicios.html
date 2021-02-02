@@ -1,0 +1,33 @@
+{% extends "prjectoWebApp/base.html" %}
+
+{% load static %}
+
+{% block title %} servicios {% endblock %}
+{% block name %} Servicios {% endblock %}
+{% block breadcrumb %}
+<li class="breadcrumb-item active" aria-current="page">Servicios</li>
+{% endblock %}
+
+{% block content %}
+<div class="container"></div>
+    {% for servicio in servicios %}
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-4">
+                        <div style="margin: 15px">
+                            <h5 class="card-title">{{servicio.titulo}}</h5>
+                            <p class="card-text">{{servicio.contenido}}</p>
+                        </div>
+                    </div>
+                    <div class="col-8" >
+                        <div class="text-center ">
+                            <img src="{{servicio.imagen.medium.url}}" class="rounded mx-auto d-block card-img" >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+    {% endfor %}
+</div>  
+{% endblock %}
+
