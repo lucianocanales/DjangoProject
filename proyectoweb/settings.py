@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'bootstrap4',
+    'GestorUsuarios',
     'prjectoWebApp',
     'servicios',
     'blog',
@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'tienda',
     'stdimage',
     'ckeditor',
-
+    'bootstrap4',
 
 ]
 
