@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'stdimage',
     'ckeditor',
     'bootstrap4',
+    'widget_tweaks',
 
 ]
 
@@ -177,3 +178,7 @@ CKEDITOR_CONFIGS = {
 
     }
 }
+
+LOGOUT_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/login/profile/'
+#LOGIN_URL = '/login/'
